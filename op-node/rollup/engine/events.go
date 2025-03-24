@@ -561,6 +561,7 @@ func (d *EngDeriver) OnEvent(ev event.Event) bool {
 	case InteropInvalidateBlockEvent:
 		d.emitter.Emit(BuildStartEvent{Attributes: x.Attributes})
 	case BuildStartEvent:
+		log.Info(fmt.Sprintf("BuildStartEvent....., x=%+v", x))
 		d.onBuildStart(x)
 	case BuildStartedEvent:
 		d.onBuildStarted(x)
