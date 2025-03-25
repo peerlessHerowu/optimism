@@ -78,7 +78,7 @@ func (s *EngineAPIClient) EngineVersionProvider() EngineVersionProvider { return
 func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.ForkchoiceState, attributes *eth.PayloadAttributes) (*eth.ForkchoiceUpdatedResult, error) {
 	llog := s.log.New("state", fc)       // local logger
 	tlog := llog.New("attr", attributes) // trace logger
-	tlog.Info("Sharing forkchoice-updated signal")
+
 	var result eth.ForkchoiceUpdatedResult
 	method := s.evp.ForkchoiceUpdatedVersion(attributes)
 	err := s.RPC.CallContext(ctx, &result, string(method), fc, attributes)
@@ -86,8 +86,6 @@ func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.Forkchoi
 		llog.Warn("Failed to share forkchoice-updated signal", "err", err, "method", method, "result", result, "s", s)
 		return nil, err
 	}
-	tlog.Info(fmt.Sprintf("Shared forkchoice-updated signal : %+v", s))
-	tlog.Info(fmt.Sprintf("Shared forkchoice-updated signal s.RPC : %+v", s.RPC))
 	llog.Info("Failed to share forkchoice-updated signal", "err", err, "method", method, "result", result, "s", s)
 	if attributes != nil { // block building is optional, we only get a payload ID if we are building a block
 		tlog.Trace("Received payload id", "payloadId", result.PayloadID)

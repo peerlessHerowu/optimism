@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/ethereum/go-ethereum/log"
 	"sync"
 
 	"github.com/ethereum/go-ethereum"
@@ -66,6 +67,7 @@ func (l *lazyRPC) CallContext(ctx context.Context, result any, method string, ar
 	if err := l.dial(ctx); err != nil {
 		return err
 	}
+	log.Info(fmt.Sprintf("Shared forkchoice-updated CallContext s.RPC : %+v", l.endpoint))
 	return l.inner.CallContext(ctx, result, method, args...)
 }
 
