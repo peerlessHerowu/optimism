@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"net/url"
-	"reflect"
 	"regexp"
 	"time"
 
@@ -110,6 +109,7 @@ func NewRPC(ctx context.Context, lgr log.Logger, addr string, opts ...RPCOption)
 	if cfg.lazy {
 		wrapped = newLazyRPC(addr, cfg)
 	} else {
+		log.Info(fmt.Sprintf("Shared forkchoice-updated NewRPC addr, : %+v", addr))
 		underlying, err := dialRPCClientWithBackoff(ctx, lgr, addr, cfg)
 		if err != nil {
 			return nil, err
@@ -260,7 +260,6 @@ func (ic *InstrumentedRPCClient) Close() {
 
 func (ic *InstrumentedRPCClient) CallContext(ctx context.Context, result any, method string, args ...any) error {
 	return instrument1(ic.m, method, func() error {
-		log.Info(fmt.Sprintf("Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(ic.c)))
 		return ic.c.CallContext(ctx, result, method, args...)
 	})
 }
