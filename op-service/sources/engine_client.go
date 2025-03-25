@@ -87,6 +87,7 @@ func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.Forkchoi
 		return nil, err
 	}
 	tlog.Info(fmt.Sprintf("Shared forkchoice-updated signal : %+v", s))
+	tlog.Info(fmt.Sprintf("Shared forkchoice-updated signal s.RPC : %+v", s.RPC))
 	llog.Info("Failed to share forkchoice-updated signal", "err", err, "method", method, "result", result, "s", s)
 	if attributes != nil { // block building is optional, we only get a payload ID if we are building a block
 		tlog.Trace("Received payload id", "payloadId", result.PayloadID)
