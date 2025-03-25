@@ -82,13 +82,10 @@ func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.Forkchoi
 	var result eth.ForkchoiceUpdatedResult
 	method := s.evp.ForkchoiceUpdatedVersion(attributes)
 	err := s.RPC.CallContext(ctx, &result, string(method), fc, attributes)
-	llog.Info("wjd Failed to share forkchoice-updated signal1111", "err", err, "method", method, "s2", "result", result, "s", s)
-
 	if err != nil {
 		llog.Warn("Failed to share forkchoice-updated signal errr", "err", err, "method", method, "s2", "result", result, "s", s)
 		return nil, err
 	}
-	llog.Info("Failed to share forkchoice-updated signal success", "err", err, "method", method, "result", result, "s", s)
 	if attributes != nil { // block building is optional, we only get a payload ID if we are building a block
 		tlog.Trace("Received payload id", "payloadId", result.PayloadID)
 	}
