@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"net/url"
+	"reflect"
 	"regexp"
 	"time"
 
@@ -259,6 +260,7 @@ func (ic *InstrumentedRPCClient) Close() {
 
 func (ic *InstrumentedRPCClient) CallContext(ctx context.Context, result any, method string, args ...any) error {
 	return instrument1(ic.m, method, func() error {
+		log.Info(fmt.Sprintf("Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(ic.c)))
 		return ic.c.CallContext(ctx, result, method, args...)
 	})
 }
