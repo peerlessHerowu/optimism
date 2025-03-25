@@ -2,7 +2,10 @@ package client
 
 import (
 	"context"
+	"fmt"
+	"github.com/ethereum/go-ethereum/log"
 	"math/big"
+	"reflect"
 
 	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
@@ -272,6 +275,7 @@ func (ic *InstrumentedClient) SendTransaction(ctx context.Context, tx *types.Tra
 }
 
 func instrument1(m metrics.RPCClientMetricer, name string, cb func() error) error {
+	log.Info(fmt.Sprintf("Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(m)))
 	record := m.RecordRPCClientRequest(name)
 	err := cb()
 	record(err)

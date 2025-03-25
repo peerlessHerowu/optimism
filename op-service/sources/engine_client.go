@@ -3,7 +3,6 @@ package sources
 import (
 	"context"
 	"fmt"
-	"reflect"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
@@ -82,9 +81,6 @@ func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.Forkchoi
 
 	var result eth.ForkchoiceUpdatedResult
 	method := s.evp.ForkchoiceUpdatedVersion(attributes)
-
-	log.Info(fmt.Sprintf("Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(s.RPC)))
-
 	err := s.RPC.CallContext(ctx, &result, string(method), fc, attributes)
 	if err != nil {
 		llog.Warn("Failed to share forkchoice-updated signal", "err", err, "method", method, "result", result, "s", s)
