@@ -117,12 +117,7 @@ func NewRPC(ctx context.Context, lgr log.Logger, addr string, opts ...RPCOption)
 		wrapped = wrapClient(underlying, cfg)
 	}
 
-	client, err := NewRPCWithClient(ctx, lgr, addr, wrapped, cfg.httpPollInterval)
-	if err != nil {
-		return nil, err
-	}
-	log.Info(fmt.Sprintf("Shared forkchoice-updated NewRPC addr, : %+v,client : %+v", addr, reflect.TypeOf(client)))
-	return client, err
+	return NewRPCWithClient(ctx, lgr, addr, wrapped, cfg.httpPollInterval)
 }
 
 func applyOptions(opts []RPCOption) rpcConfig {
@@ -265,6 +260,7 @@ func (ic *InstrumentedRPCClient) Close() {
 
 func (ic *InstrumentedRPCClient) CallContext(ctx context.Context, result any, method string, args ...any) error {
 	return instrument1(ic.m, method, func() error {
+		log.Info(fmt.Sprintf("Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(ic.c)))
 		return ic.c.CallContext(ctx, result, method, args...)
 	})
 }
