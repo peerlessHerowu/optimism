@@ -81,7 +81,7 @@ func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.Forkchoi
 
 	var result eth.ForkchoiceUpdatedResult
 	method := s.evp.ForkchoiceUpdatedVersion(attributes)
-	err := s.RPC.CallContext(ctx, &result, string(method), attributes)
+	err := s.RPC.CallContext(ctx, &result, string(method), fc, attributes)
 	llog.Info("wjd Failed to share forkchoice-updated signal1111", "err", err, "method", method, "s2", "result", result, "s", s)
 
 	if err != nil {
