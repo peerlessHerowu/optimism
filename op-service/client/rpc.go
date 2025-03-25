@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"net/url"
-	"reflect"
 	"regexp"
 	"time"
 
@@ -107,6 +106,7 @@ func NewRPC(ctx context.Context, lgr log.Logger, addr string, opts ...RPCOption)
 	cfg := applyOptions(opts)
 
 	var wrapped RPC
+	//log.Info(fmt.Sprintf("wjd Shared forkchoice-updated cfg.lazy  : %+v,addr  : %+v", cfg.lazy, addr))
 	if cfg.lazy {
 		wrapped = newLazyRPC(addr, cfg)
 	} else {
@@ -260,7 +260,7 @@ func (ic *InstrumentedRPCClient) Close() {
 
 func (ic *InstrumentedRPCClient) CallContext(ctx context.Context, result any, method string, args ...any) error {
 	return instrument1(ic.m, method, func() error {
-		log.Info(fmt.Sprintf("wjd Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(ic.c)))
+		//log.Info(fmt.Sprintf("wjd Shared forkchoice-updated CallContext s.RPC : %+v", reflect.TypeOf(ic.c)))
 		return ic.c.CallContext(ctx, result, method, args...)
 	})
 }

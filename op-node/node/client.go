@@ -67,6 +67,7 @@ func (cfg *L2EndpointConfig) Setup(ctx context.Context, log log.Logger, rollupCf
 	if err := cfg.Check(); err != nil {
 		return nil, nil, err
 	}
+	//log.Info(fmt.Sprintf("wjd Shared forkchoice-updated SetupL2EngineJWTSecret : %+v", cfg.L2EngineJWTSecret))
 	auth := rpc.WithHTTPAuth(gn.NewJWTAuth(cfg.L2EngineJWTSecret))
 	opts := []client.RPCOption{
 		client.WithGethRPCOptions(auth),
