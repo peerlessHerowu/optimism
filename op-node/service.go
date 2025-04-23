@@ -212,6 +212,8 @@ func NewRollupConfigFromCLI(log log.Logger, ctx *cli.Context) (*rollup.Config, e
 }
 
 func NewRollupConfig(log log.Logger, network string, rollupConfigPath string) (*rollup.Config, error) {
+	log.Info(fmt.Sprintf("rollupConfigPath:%s", rollupConfigPath))
+
 	if network != "" {
 		if rollupConfigPath != "" {
 			log.Error(`Cannot configure network and rollup-config at the same time.
